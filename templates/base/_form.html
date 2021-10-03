@@ -1,0 +1,66 @@
+<section class="py-4 bg-light mb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h1><i class="bi-file-person"></i>Control Empleados</h1> 
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/guardarEmpleado}" 
+                              method="post"
+                              th:object="${empleado}">
+                            <input type="hidden" name="idEmpleado" th:field="*{id}" /> 
+
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">[[#{plantillaEmpleado.nombre}]]</label> 
+                                <input class="form-control" type="text" 
+                                       name="nombre" 
+                                       th:field="*{nombre}"/>
+                                <span class="alert-danger input-group-text" th:if="${#fields.hasErrors('nombre')}"
+                                      th:errors="*{nombre}"></span>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">[[#{plantillaEmpleado.apellido}]]</label> 
+                                <input class="form-control" type="text" 
+                                       name="apellido" 
+                                       th:field="*{apellido}"/>
+                                <span class="alert-danger input-group-text" 
+                                      th:if="${#fields.hasErrors('apellido')}"
+                                      th:errors="*{apellido}"></span>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">[[#{plantillaEmpleado.dni}]]</label> 
+                                <input class="form-control" type="text" 
+                                       name="dni" 
+                                       th:field="*{dni}"/>
+                                <span class="alert-danger input-group-text"
+                                      th:if="${#fields.hasErrors('dni')}"
+                                      th:errors="*{dni}"></span>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">[[#{plantillaEmpleado.direccion}]]</label> 
+                                <input class="form-control" type="text" 
+                                       name="direccion" 
+                                       th:field="*{direccion}"/>
+                                <span  class="alert-danger input-group-text"
+                                       th:if="${#fields.hasErrors('direccion')}"
+                                       th:errors="*{direccion}"></span>
+                            </div>
+
+
+                            <div class="input-group mb-3">
+                                <input  class="form-control" type="submit" th:value="#{accion.guardar}" name="guardar" />
+                            </div>
+
+                        </form>
+
+
+
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</section>

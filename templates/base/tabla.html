@@ -1,0 +1,25 @@
+<div th:if="${listaEmpleados != null and !listaEmpleados.empty}">
+    <table class="table" >
+        <tr>
+            <th>[[#{plantillaEmpleado.nombre}]]</th>
+            <th>[[#{plantillaEmpleado.apellido}]]</th>
+            <th>[[#{plantillaEmpleado.dni}]]</th>
+            <th>[[#{plantillaEmpleado.direccion}]]</th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')" >[[#{accion.editar}]]</th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')" >[[#{accion.eliminar}]]</th>
+        </tr>
+        <div th:each="empleado:${listaEmpleados}"> 
+        <tr>
+            <td th:text="${empleado.nombre}"></td>
+            <td th:text="${empleado.apellido}"></td>
+            <td th:text="${empleado.dni}"></td>
+            <td th:text="${empleado.direccion}"></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')" ><a th:href="@{/editar/}+${empleado.id}"
+                   th:text="Editar"></a></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')" ><a th:href="@{/eliminar/}+${empleado.id}">[[#{accion.guardar}]]</a></td>
+                   
+        </tr>	
+        
+        </div>
+    </table>
+</div>
