@@ -13,7 +13,7 @@
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<div class="container-fluid">
 					<i class="bi-"></i>
-					<a class="navbar-brand" th:href="@{/}">
+					<a class="navbar-brand" href="{{ url_for('index') }}">
 						
 <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="logo" width="30" height="30">
 						Huertapp</a>
@@ -24,11 +24,11 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Publicaciones
+								<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                 Publicacion
 								</a>
 								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<li><a class="dropdown-item" th:href="/">Indice</a></li>
+									<li><a class="dropdown-item" href="{{ url_for('altaPublicacion') }}">Alta Publicacion</a></li>
 									<li><hr class="dropdown-divider"></li>
 								</ul>
 							</li>

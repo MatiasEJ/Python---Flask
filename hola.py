@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['DEV'] = True
 
 @app.route('/')
-def Index():
+def index():
     error = "wat"
     title = "index"
     nombre = "juan"
@@ -24,12 +24,12 @@ def Index():
 def base(nombre):
     return render_template('indes.html') 
 
-@app.route('/publicacion/')
-def publicacion():
-    title = "Publicaciones"
+@app.route('/publicacion/',methods =['GET','POST'])
+def altaPublicacion():
+    title = "Alta Publicacion"
     desc_form = form.PublicacionForm()
-    return render_template('altaPublicacion.html',
-    title = title,form = desc_form) 
+
+    return render_template('altaPublicacion.html',title = title, form = desc_form) 
 
 @app.route('/usuarios/')
 @app.route('/usuarios/<name>/')
