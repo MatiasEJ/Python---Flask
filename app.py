@@ -5,6 +5,7 @@ from flask.templating import render_template
 from flask import request
 from flask import make_response
 from flask import session 
+from flask import flash
 from flask_wtf import CSRFProtect
 from werkzeug.utils import redirect
 import LoginForm
@@ -14,6 +15,12 @@ app = Flask(__name__)
 app.config['DEV'] = True
 app.secret_key='secret' #Usar variables de sesion
 csrf = CSRFProtect(app)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    title="404"
+    msg="Page not found."
+    return render_template('404.html',title = title,msg = msg)
 
 @app.route('/')
 def index():
@@ -31,9 +38,14 @@ def login():
     desc_form = LoginForm.LoginForm(request.form)
 
     if request.method == 'POST' and desc_form.validate():
+        username = desc_form.username.data
+        success_message = f'Bienvenido {username}'
+        flash(success_message)
         session['username'] = desc_form.username.data
         print(desc_form.username.data)
         print(desc_form.password.data)
+
+
 
     return render_template('login.html',title = title, form = desc_form) 
 
