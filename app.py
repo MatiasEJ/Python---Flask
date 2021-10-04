@@ -10,6 +10,7 @@ from flask_wtf import CSRFProtect
 from werkzeug.utils import redirect
 import LoginForm
 import PublicacionForm
+import json
 
 app = Flask(__name__)
 app.config['DEV'] = True
@@ -20,7 +21,7 @@ csrf = CSRFProtect(app)
 def page_not_found(e):
     title="404"
     msg="Page not found."
-    return render_template('404.html',title = title,msg = msg)
+    return render_template('404.html',title = title,msg = msg),404
 
 @app.route('/')
 def index():
@@ -80,6 +81,15 @@ def cookie():
     res = make_response(render_template('cookie.html',title = title))
     res.set_cookie('custom_cookie','primer cookie')
     return res
+
+
+@app.route('/ajax-login',methods=['POST'])
+def ajax_login():
+    print(request.form)
+    username = request.form['username']
+    #Validation
+    res = {'status':200,'username':username, 'id':1}
+    return json.dumps(res)
 
 if __name__ == '__main__':
     app.run(port = 3000,debug = True)
