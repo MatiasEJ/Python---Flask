@@ -17,23 +17,24 @@
                     </div>
                     <div class="card-body">
                         <form method="post" novalidate>
-                            <input type="hidden" name="idEmpleado" th:field="*{id}" /> 
+
+                            <input type="hidden" name="csrf_token" value="{{csrf_token()}}" /> 
 
                             <div class="input-group input-group-lg flex-nowrap mb-3">
                                 <span class="flex-nowrap">
-                                {{render_field(form.titulo.label,class="input-group-text")}}
+                                {{render_field(form.username.label,class="input-group-text")}}
                                 </span>
                                 <div class="container">
-                                    {{ render_field(form.titulo,class="form-control mb-0")}}
+                                    {{ render_field(form.username,class="form-control mb-0")}}
                                 </div>
                             </div>
 
                             <div class="input-group input-group-lg flex-nowrap mb-3">
                                 <span class="flex-nowrap">
-                                {{render_field(form.descripcion.label,class="input-group-text")}}
+                                {{render_field(form.password.label,class="input-group-text")}}
                                 </span>
                                 <div class="container">
-                                {{ render_field(form.descripcion,class="form-control")}}
+                                {{ render_field(form.password,class="form-control")}}
                                 </div>
                            
                             </div>

@@ -4,15 +4,7 @@
 
 {% block title %} {{title}} {% endblock %} 
 {%block baseContent %}
-{{showBanner("Publicaciones")}}
-<p>Nombre: {{nombre}}</p>
-<p>Edad: {{age}}</p>
-{% if age and age > 18 %}
-<p>- es mayor de edad</p>
-{% endif %} {% for num in my_list %}
-<p>numero: {{num}}</p>
-{% endfor%} 
-
+{{showBanner(title)}}
 {% if error %}
 {{showError(error,"descripcion del error")}}
 {% endif %}
