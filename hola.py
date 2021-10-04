@@ -2,32 +2,26 @@ from flask import Flask
 from flask import request
 from flask.templating import render_template
 import form
+from flask import request
 
 app = Flask(__name__)
 app.config['DEV'] = True
 
 @app.route('/')
 def index():
-    error = "wat"
-    title = "index"
-    nombre = "juan"
-    age = 19
-    my_list = [1,2,3,4,5]
-    return render_template('index.html',
-    nombre = nombre,
-    age = age, 
-    my_list = my_list,
-    title = title) 
-
-
-@app.route('/base/')
-def base(nombre):
-    return render_template('indes.html') 
+    return render_template('index.html') 
 
 @app.route('/publicacion/',methods =['GET','POST'])
 def altaPublicacion():
     title = "Alta Publicacion"
-    desc_form = form.PublicacionForm()
+    desc_form = form.PublicacionForm(request.form)
+
+    if request.method == 'POST' and desc_form.validate():
+        print(desc_form.titulo.data)
+        print(desc_form.descripcion.data)
+   
+
+    
 
     return render_template('altaPublicacion.html',title = title, form = desc_form) 
 
