@@ -16,24 +16,25 @@
                         <h1><i class="bi-file-person"></i>{{title}}</h1> 
                     </div>
                     <div class="card-body">
-                        <form method="post" action="/publicacion" novalidate>
+                        <form method="POST" action="/update/{{publicacion.0}}/" novalidate>
                             <input type="hidden" name="csrf_token" value="{{csrf_token()}}" /> 
 
                             <div class="input-group input-group-lg flex-nowrap mb-3">
                                 <span class="flex-nowrap">
-                                    {{render_field(form.titulo.label,class="input-group-text")}}
+                                    <label for="" class="input-group-text">Titulo</label>
                                 </span>
                                 <div class="container">
-                                    {{ render_field(form.titulo,class="form-control mb-0")}}
+                                        <input type="text" name="titulo" value="{{publicacion.1}}" class="form-control">
+                                    
                                 </div>
                             </div>
 
                             <div class="input-group input-group-lg flex-nowrap mb-3">
                                 <span class="flex-nowrap">
-                                    {{render_field(form.descripcion.label,class="input-group-text")}}
+                                    <label for="" class="input-group-text">Descripcion</label>
                                 </span>
                                 <div class="container">
-                                    {{ render_field(form.descripcion,class="form-control")}}
+                                    <input type="text" name="descripcion" value="{{publicacion.2}}" class="form-control">
                                 </div>
                            
                             </div>
@@ -51,7 +52,4 @@
 </section>
 
 
-{% if error %}
-{{showError(error,msgError)}}
-{% endif %}
 {% endblock baseContent%}

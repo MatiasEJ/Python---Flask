@@ -1,21 +1,9 @@
 {% extends "/base/base.html" %} 
-{% from 'base/error.html' import showError %}
-{% from 'base/banner.html' import showBanner %}
+{% from 'base/_error.html' import showError %}
 
 {% block title %} {{title}} {% endblock %} 
 {%block baseContent %}
-{{showBanner("Publicaciones")}}
-<p>Nombre: {{nombre}}</p>
-<p>Edad: {{age}}</p>
-{% if age and age > 18 %}
-<p>- es mayor de edad</p>
-{% endif %} {% for num in my_list %}
-<p>numero: {{num}}</p>
-{% endfor%} 
-
-{% if error %}
-{{showError(error,"descripcion del error")}}
-{% endif %}
-
-
+    {% if error %}
+        {{showError(error,"descripcion del error")}}
+    {% endif %}
 {% endblock baseContent %}

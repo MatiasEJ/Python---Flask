@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% from 'base/_error.html' import showError %}
+{% from 'base/_success.html' import showSuccess %}
+{% from 'base/_form.html' import render_field %}
+
+{% block header %}
+{% block title%}{{title}}{% endblock %}
+{% endblock %}
+{% block baseContent%}
+{% if publicaciones %}
+<div>
+    <table class="table" >
+        <tr>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+        {% for publicacion in publicaciones %}
+        <tr>
+            <td >{{publicacion.1}}</td>
+            <td >{{publicacion.2}}</td>
+            <td ><a href="/edit/{{publicacion.0}}/">Editar</a></td>
+            <td ><a href="/delete/{{publicacion.0}}/">Eliminar</a></td>
+        </tr>	
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+{% if error %}
+    {{showError(error,msgError)}}
+{% endif %}
+{% endblock baseContent%}

@@ -1,10 +1,7 @@
 {% extends "/base/base.html" %} 
-{% from 'base/error.html' import showError %}
-{% from 'base/banner.html' import showBanner %}
-
+{% from 'base/_error.html' import showError %}
 {% block title %} {{title}} {% endblock %} 
+
 {%block baseContent %}
-{{showError(title,msg)}}
-
-
+    {{showError(title,msg)}}
 {% endblock baseContent %}
