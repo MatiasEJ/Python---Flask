@@ -4,7 +4,9 @@ from wtforms.fields.html5 import EmailField
 from wtforms import validators
 from wtforms import HiddenField
 
-class LoginForm(Form):
+
+class UsuarioForm(Form):
+
     username = StringField('Username',[
         validators.length(min=5,max=25,message="Ingrese Titulo valido"),
         validators.Required(message="Username es requerido")
@@ -31,5 +33,7 @@ class PublicacionForm(Form):
     descripcion = TextField('Descripcion',[
         validators.length(max=255,message="El tamaño maximo es 255")
     ])
+
+
 
 

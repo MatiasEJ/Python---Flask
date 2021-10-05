@@ -40,7 +40,7 @@ def after_request(res):
     return res
 
 
-from controladorLogin import *
+from controladorUsuario import *
 from controladorPublicaciones import *
 
 

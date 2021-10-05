@@ -11,7 +11,7 @@ from flask import flash
 from flask import g
 from flask_wtf import CSRFProtect
 from werkzeug.utils import redirect
-from forms import LoginForm
+from forms import UsuarioForm
 import json
 from flask_mysqldb import MySQL
 from app import app
@@ -32,7 +32,7 @@ def page_not_found(e):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     title = "Login"
-    desc_form = LoginForm(request.form)
+    desc_form = UsuarioForm(request.form)
 
     if request.method == 'POST' and desc_form.validate():
         username = desc_form.username.data
