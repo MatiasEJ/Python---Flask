@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% from 'base/error.html' import showError %}
+{% from 'base/success.html' import showSuccess %}
 {% from 'base/form.html' import render_field %}
 {% from 'base/banner.html' import showBanner %}
 
@@ -16,8 +17,8 @@
                         <h1><i class="bi-file-person"></i>{{title}}</h1> 
                     </div>
                     <div class="card-body">
-                        <form method="post" novalidate>
-                            <input type="hidden" name="idEmpleado" th:field="*{id}" /> 
+                        <form method="post" action="/publicacion" novalidate>
+                            <input type="hidden" name="csrf_token" value="{{csrf_token()}}" /> 
 
                             <div class="input-group input-group-lg flex-nowrap mb-3">
                                 <span class="flex-nowrap">
@@ -44,6 +45,9 @@
                             </div>
 
                         </form>
+                            {% if msg %}
+                            {{showSuccess(msg)}}
+                            {% endif %}
                     </div>
                 </div> 
             </div>
