@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
-{% from 'base/error.html' import showError %}
-{% from 'base/form.html' import render_field %}
-{% from 'base/banner.html' import showBanner %}
+{% from 'base/_error.html' import showError %}
+{% from 'base/_form.html' import render_field %}
+{% from 'base/_banner.html' import showBanner %}
 
 {% block header %}
 {% block title%}{{title}}{% endblock %}
@@ -38,8 +38,6 @@
                                 </div>
                            
                             </div>
-
-                            {{form.honeypot}}
                             <div class="input-group mb-3">
                                 <input  class="form-control" type="submit" th:value="#{accion.guardar}" name="guardar" />
                             </div>
