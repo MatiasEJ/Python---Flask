@@ -1,9 +1,8 @@
-from wtforms import Form 
-from wtforms import StringField, TextField
+from wtforms import Form, StringField, TextField,validators,HiddenField
+from wtforms.fields.core import BooleanField
 from wtforms.fields.html5 import EmailField
-from wtforms import validators
-from wtforms import HiddenField
-
+from wtforms.fields.simple import SubmitField
+from flask_wtf import FlaskForm
 
 class UsuarioForm(Form):
     nombre = StringField('Nombre',[
@@ -18,7 +17,6 @@ class UsuarioForm(Form):
         validators.length(min=5,max=25,message="Ingrese Titulo valido"),
         validators.Required(message="Username es requerido")
         ]) 
-
     username = StringField('Username',[
         validators.length(min=5,max=25,message="Ingrese Titulo valido"),
         validators.Required(message="Username es requerido")
@@ -28,6 +26,7 @@ class UsuarioForm(Form):
         validators.Required(message="Password Requerido")
     ])
 
+    # CUSTOM VALIDATIONS
     # def validate_username(form,field):
     #     username= field.data
     #     cur = mysql.connection.cursor()
@@ -48,4 +47,14 @@ class PublicacionForm(Form):
 
 
 
-
+class LoginForm(FlaskForm):
+    username = StringField('username',[
+        validators.length(min=5,max=25,message="Ingrese usuario valido"),
+        validators.Required(message="Username es requerido")
+        ]) 
+    password = StringField('password',[
+        validators.length(min=5,max=25,message="Ingrese password valido"),
+        validators.Required(message="Username es requerido")
+        ]) 
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Login')

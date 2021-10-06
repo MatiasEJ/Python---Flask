@@ -9,12 +9,14 @@ from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
 from flask import make_response
 from flask import session
+from forms import LoginForm
+from model.model_user import get_user, users
+import forms
 
 
 app = Flask(__name__)
 app.config.from_object('config.DevelopmentConfig')
 mysql = MySQL(app)
-
 csrf = CSRFProtect()
 
 @app.errorhandler(404)
@@ -28,22 +30,25 @@ def page_not_found(e):
 def index():
     title = "Home"
     banner = "Bienvenido"
+    if 'username' in session:
+        app.logger.warn("LOGEADO")
+        flash("logeado")
+    else:
+        app.logger.error("no LOGEADO")
+        flash("no logeado")
     return render_template('index.html', title=title, banner=banner)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     title = "Login"
-    desc_form = UsuarioForm(request.form)
-    if request.method == 'POST' and desc_form.validate():
+    desc_form = forms.LoginForm(request.form)
+    if request.method == 'POST' :
         username = desc_form.username.data
         success_message = f'Bienvenido {username}'
         flash(success_message)
         session['username'] = desc_form.username.data
-        print(desc_form.username.data)
-        print(desc_form.password.data)
 
     return render_template('login.html', title=title, form=desc_form)
-
 
 @app.route('/logout')
 def logout():
@@ -64,11 +69,11 @@ def after_request(res):
 
 @app.route('/ajax-login',methods=['POST'])
 def ajax_login():
-    print(request.form)
     username = request.form['username']
     # Validation
     res = {'status':200,'username':username, 'id':1}
     return json.dumps(res)
+
 
 from controladorUsuario import *
 from controladorPublicaciones import *

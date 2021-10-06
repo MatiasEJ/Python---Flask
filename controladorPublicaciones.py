@@ -30,6 +30,7 @@ def altaPublicacion():
             mysql.connection.commit()
             flash("Publicacion creada.")
         except (MySQL.Error, MySQL.Warning) as e:
+            app.logger.warn("wat")
             flash(e)
         finally:
             cur.close()
