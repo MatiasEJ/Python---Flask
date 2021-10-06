@@ -6,6 +6,18 @@ from wtforms import HiddenField
 
 
 class UsuarioForm(Form):
+    nombre = StringField('Nombre',[
+        validators.length(min=5,max=25,message="Ingrese Titulo valido"),
+        validators.Required(message="Username es requerido")
+        ]) 
+    apellido = StringField('Apellido',[
+        validators.length(min=5,max=25,message="Ingrese Titulo valido"),
+        validators.Required(message="Username es requerido")
+        ]) 
+    direccion = StringField('Direccion',[
+        validators.length(min=5,max=25,message="Ingrese Titulo valido"),
+        validators.Required(message="Username es requerido")
+        ]) 
 
     username = StringField('Username',[
         validators.length(min=5,max=25,message="Ingrese Titulo valido"),

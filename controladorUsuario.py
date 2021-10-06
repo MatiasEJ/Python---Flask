@@ -9,8 +9,8 @@ from flask import make_response
 from flask import session
 from flask import flash
 from flask import g
-from flask_wtf import CSRFProtect
-from werkzeug.utils import redirect
+from flask_wtf.csrf import CSRFProtect
+from werkzeug.utils import redirect 
 from forms import UsuarioForm
 import json
 from flask_mysqldb import MySQL

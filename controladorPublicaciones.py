@@ -1,5 +1,4 @@
 from logging import raiseExceptions
-import MySQLdb
 from flask import Flask, config
 from flask import request
 from flask.helpers import url_for
