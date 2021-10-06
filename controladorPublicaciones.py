@@ -21,6 +21,7 @@ from errorDb import NotFoundError,NotAuthError
 def altaPublicacion():
     title = "Alta Publicacion"
     desc_form = PublicacionForm(request.form)
+    
     if request.method == 'POST' and desc_form.validate():
         titulo = desc_form.titulo.data
         descripcion = desc_form.descripcion.data
@@ -33,7 +34,7 @@ def altaPublicacion():
             flash(e)
         finally:
             cur.close()
-    return render_template('altaPublicacion.html', title=title, form=desc_form)
+    return render_template('altaPublicacion.html', title=title, publicacion_form=desc_form )
 
 
 @app.route('/publicaciones', methods=['GET'])

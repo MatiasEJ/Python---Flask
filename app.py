@@ -7,6 +7,8 @@ from flask import g
 from flask_wtf import CSRFProtect
 from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
+from flask import make_response
+from flask import session
 
 
 app = Flask(__name__)
@@ -28,6 +30,27 @@ def index():
     banner = "Bienvenido"
     return render_template('index.html', title=title, banner=banner)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    title = "Login"
+    desc_form = UsuarioForm(request.form)
+    if request.method == 'POST' and desc_form.validate():
+        username = desc_form.username.data
+        success_message = f'Bienvenido {username}'
+        flash(success_message)
+        session['username'] = desc_form.username.data
+        print(desc_form.username.data)
+        print(desc_form.password.data)
+
+    return render_template('login.html', title=title, form=desc_form)
+
+
+@app.route('/logout')
+def logout():
+    if 'username' in session:
+        session.pop('username')
+    return redirect(url_for("index"))
+
 @app.before_request
 def before_request():
     # chequeo de datos de session/DBs
@@ -39,6 +62,13 @@ def after_request(res):
     # chequeo de datos de session
     return res
 
+@app.route('/ajax-login',methods=['POST'])
+def ajax_login():
+    print(request.form)
+    username = request.form['username']
+    # Validation
+    res = {'status':200,'username':username, 'id':1}
+    return json.dumps(res)
 
 from controladorUsuario import *
 from controladorPublicaciones import *
