@@ -28,7 +28,7 @@ def create_user():
             cur = mysql.connection.cursor()
             # cur.execute("INSERT INTO publicaciones (titulo, descripcion) VALUES (%s,%s)", (titulo, descripcion))
             # mysql.connection.commit()
-            flash("Usuario creado")
+            flash(f"Usuario: {username} creado")
         except (MySQL.Error, MySQL.Warning) as e:
             flash(e)
         finally:
