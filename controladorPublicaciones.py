@@ -34,7 +34,7 @@ def altaPublicacion():
             flash(e)
         finally:
             cur.close()
-    return render_template('altaPublicacion.html', title=title, publicacion_form=desc_form )
+    return render_template('altaPublicacion.html', title=title, form=desc_form )
 
 
 @app.route('/publicaciones', methods=['GET'])

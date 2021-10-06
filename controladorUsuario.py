@@ -17,11 +17,25 @@ from flask_mysqldb import MySQL
 from app import app
 from app import mysql
 
-@app.route('/create_user/')
+@app.route('/create_user/',methods=['GET','POST'])
 def create_user():
-    #  param = request.args.get('id','noParams')
-    #  param2 =request.args.get('nombre','noparams2')
-    return render_template('altaUsuario.html')
+    title = "Alta Usuarios"
+    form = UsuarioForm(request.form)
+    if request.method == 'POST':
+        username = form.username.data
+        password = form.password.data
+        try:
+            cur = mysql.connection.cursor()
+            # cur.execute("INSERT INTO publicaciones (titulo, descripcion) VALUES (%s,%s)", (titulo, descripcion))
+            # mysql.connection.commit()
+            flash("Usuario creado")
+        except (MySQL.Error, MySQL.Warning) as e:
+            flash(e)
+        finally:
+            cur.close()
+    
+    return render_template('create_user.html', title=title, form=form )
+
 
 @app.route('/usuarios/<int:id>/')
 def Usuarios(name="no se encuentra",id="nada"):

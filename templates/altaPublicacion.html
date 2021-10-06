@@ -16,7 +16,7 @@
                         <h1><i class="bi-file-person"></i>{{title}}</h1> 
                     </div>
                     <div class="card-body">
-                        <form method="post" action="/publicacion" novalidate>
+                        <form method="post" action="/publicacion/" novalidate>
                             <input type="hidden" name="csrf_token" value="{{csrf_token()}}" /> 
 
                             <div class="input-group input-group-lg flex-nowrap mb-3">
@@ -33,7 +33,7 @@
                                     {{render_field(form.descripcion.label,class="input-group-text")}}
                                 </span>
                                 <div class="container">
-                                    {{ render_field(publicacion_form.descripcion,class="form-control")}}
+                                    {{ render_field(form.descripcion,class="form-control")}}
                                 </div>
                            
                             </div>
