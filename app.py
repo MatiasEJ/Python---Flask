@@ -9,6 +9,7 @@ from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
 from flask import make_response
 from flask import session
+from wtforms.fields.core import DecimalField
 from forms import LoginForm
 from model.model_user import get_user, users
 import forms
@@ -32,7 +33,7 @@ def index():
     banner = "Bienvenido"
     if 'username' in session:
         app.logger.warn("LOGEADO")
-        flash("logeado")
+        flash("logeado, bienvenido: "+session['username'])
     else:
         app.logger.error("no LOGEADO")
         flash("no logeado")
@@ -40,15 +41,12 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    title = "Login"
-    desc_form = forms.LoginForm(request.form)
+    print("EN EL LOGIN")
+    desc_form = LoginForm()
     if request.method == 'POST' :
         username = desc_form.username.data
-        success_message = f'Bienvenido {username}'
-        flash(success_message)
-        session['username'] = desc_form.username.data
-
-    return render_template('login.html', title=title, form=desc_form)
+        session['username'] = username
+    return render_template('login.html', form=desc_form)
 
 @app.route('/logout')
 def logout():
@@ -67,12 +65,12 @@ def after_request(res):
     # chequeo de datos de session
     return res
 
-@app.route('/ajax-login',methods=['POST'])
-def ajax_login():
-    username = request.form['username']
-    # Validation
-    res = {'status':200,'username':username, 'id':1}
-    return json.dumps(res)
+# @app.route('/ajax-login',methods=['POST'])
+# def ajax_login():
+#     username = request.form['username']
+#     # Validation
+#     res = {'status':200,'username':username, 'id':1}
+#     return json.dumps(res)
 
 
 from controladorUsuario import *

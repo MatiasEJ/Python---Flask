@@ -60,6 +60,7 @@ def publicaciones():
 def delete_publicacion(id):
     try:
         cur = mysql.connection.cursor()
+        #INSEGURO? revisar...
         cur.execute(f"SELECT * from publicaciones where id = {id};")
         publicacion =cur.fetchall()[0]
 
@@ -85,6 +86,7 @@ def update_publicacion(id):
             cur = mysql.connection.cursor()
             titulo = desc_form.titulo.data 
             descripcion = desc_form.descripcion.data 
+            #ESTA ES LA FORMA DE AGREGAR DATOS.
             cur.execute("""
             UPDATE publicaciones 
             SET titulo=%s,
