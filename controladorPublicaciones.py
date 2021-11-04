@@ -11,32 +11,33 @@ from flask import g
 from werkzeug.utils import redirect
 from forms import PublicacionForm
 import json
-from flask_mysqldb import MySQL
+from flask_mysqldb import MySQL,MySQLdb
 from app import app
 from app import mysql
 from errorDb import NotFoundError,NotAuthError 
 
+#CREA PUBLICACIONES
 @app.route('/publicacion/', methods=['GET', 'POST'])
 def altaPublicacion():
     title = "Alta Publicacion"
     desc_form = PublicacionForm(request.form)
-    
-    if request.method == 'POST' and desc_form.validate():
+
+    if request.method == 'POST' and desc_form.validate() and 'username' in session:
         titulo = desc_form.titulo.data
         descripcion = desc_form.descripcion.data
         try:
             cur = mysql.connection.cursor()
             cur.execute("INSERT INTO publicaciones (titulo, descripcion) VALUES (%s,%s)", (titulo, descripcion))
             mysql.connection.commit()
-            flash("Publicacion creada.")
-        except (MySQL.Error, MySQL.Warning) as e:
+            flash("Publicacion creada. Autor: "+session['username'])
+        except (MySQLdb.Error, MySQLdb.Warning) as e:
             app.logger.warn("wat")
             flash(e)
         finally:
             cur.close()
     return render_template('altaPublicacion.html', title=title, form=desc_form )
 
-
+#LISTA DE TODAS LAS PUBLICACIONES
 @app.route('/publicaciones', methods=['GET'])
 def publicaciones():
     error = ""

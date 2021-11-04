@@ -30,22 +30,26 @@ def page_not_found(e):
 @app.route('/')
 def index():
     title = "Home"
-    banner = "Bienvenido"
+    username = ""
     if 'username' in session:
+        username = session['username']
         app.logger.warn("LOGEADO")
+        # PASAMOS LOS ERRORES POR FLASH O POR MENSAJES?
+        banner = "Bienvenido "+username
         flash("logeado, bienvenido: "+session['username'])
     else:
-        app.logger.error("no LOGEADO")
+        app.logger.warn("no LOGEADO") #AL LOG
+        banner = "Bienvenido: te invitamos a logearte o registrarte en nuestra app "
         flash("no logeado")
-    return render_template('index.html', title=title, banner=banner)
+    return render_template('index.html', username = username, title=title, banner=banner)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print("EN EL LOGIN")
     desc_form = LoginForm()
     if request.method == 'POST' :
         username = desc_form.username.data
         session['username'] = username
+        return redirect(url_for("index"))
     return render_template('login.html', form=desc_form)
 
 @app.route('/logout')
@@ -71,7 +75,6 @@ def after_request(res):
 #     # Validation
 #     res = {'status':200,'username':username, 'id':1}
 #     return json.dumps(res)
-
 
 from controladorUsuario import *
 from controladorPublicaciones import *

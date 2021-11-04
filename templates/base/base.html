@@ -1,5 +1,6 @@
 {% from 'base/_nav.html' import showNav %}
 {% from 'base/_banner.html' import showBanner %}
+{% from 'base/_success.html' import showSuccess %}
 <!doctype html>
 <html >
 	<head th:fragment="head">
@@ -13,25 +14,26 @@
 		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body>
-		{{showNav()}}
+		<!-- BARRA NAVEGACION -->
+		{{showNav(username)}}
 		<div>
+			<!-- MENSAJES -->
 			{% with messages = get_flashed_messages() %}
-			{% if messages %}
-			{% for message in messages %}
-			<div class="alert alert-success">
-				{{ message }}	
-			</div>
-			{% endfor %}
-			{% endif %}
+				{% if messages %}
+					{% for message in messages %}
+						{{showSuccess(message)}}	
+					{% endfor %}
+				{% endif %}
 			{% endwith %}
-			
 		</div>
 		
         <section class="content">
 			{% if banner %}
 				{{showBanner(banner)}}
 			{% endif %}
-			{% block baseContent%}{% endblock baseContent%}
+			{% block baseContent%}
+			<!-- CONTENIDO BASE -->
+			{% endblock baseContent%}
 			
         </section>
 		
