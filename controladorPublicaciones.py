@@ -14,7 +14,8 @@ import json
 from flask_mysqldb import MySQL,MySQLdb
 from app import app
 from app import mysql
-from errorDb import NotFoundError,NotAuthError 
+from errorDb import NotFoundError,NotAuthError
+from servicesPublicaciones import crearPublicacion, delete_publicacion_by_id, get_all_publicaciones 
 
 #CREA PUBLICACIONES
 @app.route('/publicacion/', methods=['GET', 'POST'])
@@ -23,32 +24,18 @@ def altaPublicacion():
     desc_form = PublicacionForm(request.form)
 
     if request.method == 'POST' and desc_form.validate() and 'username' in session:
-        titulo = desc_form.titulo.data
-        descripcion = desc_form.descripcion.data
-        try:
-            cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO publicaciones (titulo, descripcion) VALUES (%s,%s)", (titulo, descripcion))
-            mysql.connection.commit()
-            flash("Publicacion creada. Autor: "+session['username'])
-        except (MySQLdb.Error, MySQLdb.Warning) as e:
-            app.logger.warn("wat")
-            flash(e)
-        finally:
-            cur.close()
-    return render_template('altaPublicacion.html', title=title, form=desc_form )
+        if (crearPublicacion(desc_form) == True):
+            app.logger.warn("SE CREO LA PUBLI")
+            return redirect(url_for("publicaciones"))
+
+    return render_template('create_publicacion.html', title=title, form=desc_form )
 
 #LISTA DE TODAS LAS PUBLICACIONES
 @app.route('/publicaciones', methods=['GET'])
 def publicaciones():
     error = ""
     msgError = ""
-    try:
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM publicaciones")
-        data = cur.fetchall()
-    except:
-        error = "Error conexion db"
-        msgError = "No se pudo conectar a la base de datos."
+    data = get_all_publicaciones()
 
     if len(data) == 0:
         error = "Lista Vacia"
@@ -59,24 +46,7 @@ def publicaciones():
 
 @app.route('/delete/<int:id>/', methods=['GET', 'POST'])
 def delete_publicacion(id):
-    try:
-        cur = mysql.connection.cursor()
-        #INSEGURO? revisar...
-        cur.execute(f"SELECT * from publicaciones where id = {id};")
-        publicacion =cur.fetchall()[0]
-
-        if publicacion == None:
-            msg = "No se encuentra la publicacion"
-            flash(msg)
-            raise NotFoundError(msg)
-
-        cur.execute(f"DELETE from publicaciones where id = {id};")
-        mysql.connection.commit()
-        flash(f"Publicacion: {publicacion} eliminada.")
-    except (MySQL.Error, MySQL.Warning) as e:
-        flash(e)
-    finally:
-        cur.close()
+    delete_publicacion_by_id(id)
     return redirect(url_for("publicaciones"))
 
 @app.route('/update/<int:id>/',methods=['GET','POST'])

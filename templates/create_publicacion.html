@@ -1,0 +1,24 @@
+
+{% extends 'base/_form_base.html' %}
+
+{% block customForm %}
+<form method="post" action="/publicacion/" novalidate>
+  <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+
+  <div class="input-group mb-3">
+    <label class="input-group-text">Titulo</label> 
+    <input  class="form-control" type="text" name="titulo" required>
+  </div>
+
+  <div class="input-group mb-3">
+    <label class="input-group-text">Descripcion</label> 
+    <input  class="form-control" type="text" name="descripcion" required>
+  </div>
+
+  <div class="input-group mb-3">
+    <input class="form-control" type="submit" name="guardar" value="Crear publicacion" />
+  </div>
+
+</form>
+
+{% endblock customForm %}

@@ -31,6 +31,7 @@ def page_not_found(e):
 def index():
     title = "Home"
     username = ""
+    publicaciones = get_all_publicaciones()
     if 'username' in session:
         username = session['username']
         app.logger.warn("LOGEADO")
@@ -41,7 +42,7 @@ def index():
         app.logger.warn("no LOGEADO") #AL LOG
         banner = "Bienvenido: te invitamos a logearte o registrarte en nuestra app "
         flash("no logeado")
-    return render_template('index.html', username = username, title=title, banner=banner)
+    return render_template('index.html', username = username, title=title, banner=banner,publicaciones = publicaciones)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
