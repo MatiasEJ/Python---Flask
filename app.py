@@ -1,5 +1,4 @@
-from logging import raiseExceptions
-from flask import Flask, config
+from flask import Flask
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask import request
@@ -7,12 +6,8 @@ from flask import g
 from flask_wtf import CSRFProtect
 from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
-from flask import make_response
 from flask import session
-from wtforms.fields.core import DecimalField
 from forms import LoginForm
-from model.model_user import get_user, users
-import forms
 
 
 app = Flask(__name__)
@@ -31,7 +26,7 @@ def page_not_found(e):
 def index():
     title = "Home"
     username = ""
-    publicaciones = get_all_publicaciones()
+    publicaciones = publicacionServices.get_all_publicaciones()
     if 'username' in session:
         username = session['username']
         app.logger.warn("LOGEADO")
@@ -62,7 +57,12 @@ def logout():
 @app.before_request
 def before_request():
     # chequeo de datos de session/DBs
-    g.test = 'TEST'  # GLOBAL? malapractica?
+    # GLOBAL malapractica?
+    g.username = ""
+    if 'username' in session:
+        g.username =  session['username']
+    
+    g.test = 'TEST' 
 
 
 @app.after_request

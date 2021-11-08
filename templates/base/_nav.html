@@ -8,8 +8,9 @@
 					<img src="{{ url_for('static', filename='img/logo4.png') }}" alt="logo" width="30" height="30">Huertapp</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
-					</button>
+					</button>	
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						{% if username %}
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Publicacion</a>
@@ -27,9 +28,11 @@
 								</ul>
 						    </li>
 					    </ul>
-						{% if username %}
 							{{showUsuarioLogOut(username)}}
+					
 						{% else %}
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					    </ul>
 							<a href="{{ url_for('create_user') }}" class="btn btn-outline-success my-2 my-sm-0" >Crear Cuenta</a>
 							<a href="{{ url_for('login') }}" class="btn btn-outline-success my-2 my-sm-0" type="submit" >Login</a>
 						{% endif %}
