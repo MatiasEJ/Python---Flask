@@ -1,14 +1,7 @@
-from logging import raiseExceptions
-from flask import request
-from flask.helpers import url_for
-from flask.templating import render_template
-from flask import request
-from flask import make_response
-from flask import flash
-from forms import UsuarioForm
-from flask_mysqldb import MySQL
 from app import app
-from app import mysql
+from flask import request,flash,render_template,make_response
+from forms import UsuarioForm
+
 
 @app.route('/create_user/',methods=['GET','POST'])
 def create_user():
@@ -17,16 +10,8 @@ def create_user():
     if request.method == 'POST':
         username = form.username.data
         password = form.password.data
-        try:
-            cur = mysql.connection.cursor()
-            # Falta implementar crear usuario.
-            # cur.execute("INSERT INTO publicaciones (titulo, descripcion) VALUES (%s,%s)", (titulo, descripcion))
-            # mysql.connection.commit()
-            flash(f"Usuario: {username} creado")
-        except (MySQL.Error, MySQL.Warning) as e:
-            flash(e)
-        finally:
-            cur.close()
+        # CREA USUARIO, FALTA IMPLEMENTAR
+        flash(f"Usuario: {username} creado")
     
     return render_template('create_user.html', title=title, form=form )
 

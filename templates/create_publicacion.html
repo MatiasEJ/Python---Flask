@@ -1,27 +1,8 @@
 {% extends 'base/_form_base.html' %} 
 {% from 'base/_form.html' import render_field %} 
 {% block customForm %}
-<form method="post" action="/publicacion/" novalidate>
-  <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
-
-  <div class="input-group input-group-lg flex-nowrap mb-3">
-    <span class="flex-nowrap">
-      {{render_field(form.titulo.label,class="input-group-text")}}
-    </span>
-    <div class="container">
-      {{ render_field(form.titulo,class="form-control mb-0")}}
-    </div>
-  </div>
-
-  <div class="input-group input-group-lg flex-nowrap mb-3">
-    <span class="flex-nowrap">
-      {{render_field(form.descripcion.label,class="input-group-text")}}
-    </span>
-    <div class="container">
-      {{ render_field(form.descripcion,class="form-control")}}
-    </div>
-  </div>
-  <div class="row">
+<!-- IMPLEMENTAR ? -->
+  <!-- <div class="row">
         <h2>Select a file to upload</h2>
         <p>
             {% with messages = get_flashed_messages() %}
@@ -50,7 +31,27 @@
                 <input type="submit" value="Submit" class="btn btn-info">
             </p>
         </form>
+    </div> -->
+<form method="post" action="/publicacion" novalidate>
+  <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{render_field(form.titulo.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.titulo,class="form-control mb-0")}}
     </div>
+  </div>
+
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{render_field(form.descripcion.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.descripcion,class="form-control")}}
+    </div>
+  </div>
 
 
   <div class="input-group mb-3">

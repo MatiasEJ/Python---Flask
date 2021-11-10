@@ -1,4 +1,4 @@
-from app import mysql,app
+from app import *
 from flask import flash
 from flask_mysqldb import MySQL, MySQLdb
 from werkzeug.utils import redirect
@@ -8,6 +8,7 @@ from errorDb import NotFoundError
 
 def crearPublicacion(titulo:str,descripcion:str,usuario:str) -> bool:
     response = False
+    cur = None
     try:
         cur = mysql.connection.cursor()
         cur.execute("""INSERT INTO publicaciones (titulo, descripcion,usuario) 
@@ -37,7 +38,7 @@ def get_usuario_by_username(username:str) -> tuple:
 
 
 def get_publicacion_by_id(id:int) -> tuple:
-    resultado = () 
+    resultado = None
     try:
         cur = mysql.connection.cursor()
         # TODO : INSEGURO? PORQUE?... 
@@ -45,6 +46,7 @@ def get_publicacion_by_id(id:int) -> tuple:
         resultado =cur.fetchall()[0]
     except IndexError:
         app.logger.error(IndexError)
+        resultado = (False)
     finally:
         cur.close()
     # Aca chequeo si la tupla tiene items 
@@ -62,23 +64,34 @@ def get_all_publicaciones()-> tuple:
         cur.close()
     return data
 
-def delete_publicacion_by_id(id:int)->None:
-    resultado = False
+def get_all_publicaciones_by_username(username)-> tuple:
+    data= [] 
     try:
         cur = mysql.connection.cursor()
-
-        publicacion= get_publicacion_by_id(id)
-        if publicacion == None:
-            flash("No se encuentra la publicacion")
-            raise NotFoundError()
-
-        cur.execute(f"DELETE from publicaciones where id = {id};")
-        mysql.connection.commit()
-        resultado = True 
+        cur.execute(f"SELECT * from publicaciones where usuario = '{username}';")
+        data = cur.fetchall()
     except (MySQLdb.Error, MySQLdb.Warning) as e:
         app.logger.error(e)
     finally:
         cur.close()
+    return data
+
+def delete_publicacion_by_id(id:int)->bool:
+    resultado = None
+    publicacion= get_publicacion_by_id(id)
+    if publicacion == False:
+       resultado = False 
+    else:
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(f"DELETE from publicaciones where id = {id};")
+            mysql.connection.commit()
+            resultado = True 
+        except (MySQLdb.Error, MySQLdb.Warning) as e:
+            resultado = False
+            app.logger.error("No se pudo borrarli")
+        finally:
+            cur.close()
     return resultado
 
 def update_publicacion(titulo,descripcion,id)->str:
