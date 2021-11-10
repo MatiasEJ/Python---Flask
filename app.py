@@ -8,12 +8,20 @@ from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
 from flask import session
 from forms import LoginForm
+import os
+from werkzeug.utils import secure_filename
+ 
 
 
 app = Flask(__name__)
 app.config.from_object('config.DevelopmentConfig')
+
+UPLOAD_FOLDER = 'static/uploads/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 mysql = MySQL(app)
-csrf = CSRFProtect()
+csrf = CSRFProtect(app)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -26,11 +34,15 @@ def page_not_found(e):
 def index():
     title = "Home"
     username = ""
-    publicaciones = publicacionServices.get_all_publicaciones()
+    publicaciones = consultasPublicacion.get_all_publicaciones()
+
+    if len(publicaciones) == 0:
+        error = "No existen publicaciones"
+        app.logger.warn(error)
+        flash(error)
+
     if 'username' in session:
         username = session['username']
-        app.logger.warn("LOGEADO")
-        # PASAMOS LOS ERRORES POR FLASH O POR MENSAJES?
         banner = "Bienvenido "+username
         flash("logeado, bienvenido: "+session['username'])
     else:
@@ -42,7 +54,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     desc_form = LoginForm()
-    if request.method == 'POST' :
+    if request.method == 'POST' and desc_form.validate() :
         username = desc_form.username.data
         session['username'] = username
         return redirect(url_for("index"))
@@ -69,6 +81,36 @@ def before_request():
 def after_request(res):
     # chequeo de datos de session
     return res
+
+ 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+     
+ 
+
+@app.route('/', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        flash('No image selected for uploading')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #print('upload_image filename: ' + filename)
+        flash('Image successfully uploaded and displayed below')
+        return render_template('index.html', filename=filename)
+    else:
+        flash('Allowed image types are - png, jpg, jpeg, gif')
+        return redirect(request.url)
+ 
+@app.route('/display/<filename>')
+def display_image(filename):
+    #print('display_image filename: ' + filename)
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 # @app.route('/ajax-login',methods=['POST'])
 # def ajax_login():

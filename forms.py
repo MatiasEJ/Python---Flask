@@ -37,11 +37,11 @@ class UsuarioForm(Form):
             
 
 class PublicacionForm(Form):
-    titulo = StringField('Titulo',[
-        validators.length(min=4,max=25,message="Ingrese Titulo valido"),
+    titulo = StringField('titulo',[
+        validators.length(min=4,max=25,message="Ingrese Titulo valido. Entre 4 y 25 caracteres."),
         validators.Required(message="titulo es requerido")
         ]) 
-    descripcion = TextField('Descripcion',[
+    descripcion = TextField('descripcion',[
         validators.length(max=255,message="El tamaño maximo es 255")
     ])
 
@@ -49,7 +49,7 @@ class PublicacionForm(Form):
 
 class LoginForm(FlaskForm):
     username = StringField('username',[
-        validators.length(min=5,max=25,message="Ingrese usuario valido"),
+        validators.length(min=5,max=25,message="Ingrese usuario valido. Entre 5 y 25 caracteres."),
         validators.Required(message="Username es requerido")
         ]) 
     password = StringField('password',[

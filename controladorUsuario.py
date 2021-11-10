@@ -1,18 +1,11 @@
 from logging import raiseExceptions
-import MySQLdb
-from flask import Flask, config
 from flask import request
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask import request
 from flask import make_response
-from flask import session
 from flask import flash
-from flask import g
-from flask_wtf.csrf import CSRFProtect
-from werkzeug.utils import redirect 
 from forms import UsuarioForm
-import json
 from flask_mysqldb import MySQL
 from app import app
 from app import mysql
@@ -26,6 +19,7 @@ def create_user():
         password = form.password.data
         try:
             cur = mysql.connection.cursor()
+            # Falta implementar crear usuario.
             # cur.execute("INSERT INTO publicaciones (titulo, descripcion) VALUES (%s,%s)", (titulo, descripcion))
             # mysql.connection.commit()
             flash(f"Usuario: {username} creado")

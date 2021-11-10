@@ -1,24 +1,66 @@
-
-{% extends 'base/_form_base.html' %}
-
+{% extends 'base/_form_base.html' %} 
+{% from 'base/_form.html' import render_field %} 
 {% block customForm %}
 <form method="post" action="/publicacion/" novalidate>
   <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
 
-  <div class="input-group mb-3">
-    <label class="input-group-text">Titulo</label> 
-    <input  class="form-control" type="text" name="titulo" required>
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{render_field(form.titulo.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.titulo,class="form-control mb-0")}}
+    </div>
   </div>
 
-  <div class="input-group mb-3">
-    <label class="input-group-text">Descripcion</label> 
-    <input  class="form-control" type="text" name="descripcion" required>
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{render_field(form.descripcion.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.descripcion,class="form-control")}}
+    </div>
   </div>
+  <div class="row">
+        <h2>Select a file to upload</h2>
+        <p>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+        </p>
+        {% if filename %}
+            <div>
+                <img src="{{ url_for('display_image', filename=filename) }}">
+            </div>
+        {% endif %}
+        <form method="post" action="/" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}" /> 
+            <dl>
+                <p>
+                    <input type="file" name="file" class="form-control" autocomplete="off" required>
+                </p>
+            </dl>
+            <p>
+                <input type="submit" value="Submit" class="btn btn-info">
+            </p>
+        </form>
+    </div>
+
 
   <div class="input-group mb-3">
-    <input class="form-control" type="submit" name="guardar" value="Crear publicacion" />
+    <input
+      class="form-control"
+      type="submit"
+      name="guardar"
+      value="Crear publicacion"
+    />
   </div>
-
 </form>
 
 {% endblock customForm %}
